@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  # get 'home/index'
-  # get 'home/privacy'
-  # get 'home/about'
-  # get 'home/contact'
 
   #Home Controller Routes
   get 'home', to: 'home#index', as: :home
@@ -11,10 +7,16 @@ Rails.application.routes.draw do
   get 'home/contact', to: 'home#contact', as: :contact
   # get 'home/search', to: 'home#search', as: :search
 
-  #Session Controller Routes
+  #Sessions Controller Routes
   resources :sessions, only: [:create]
   get 'login', to: 'sessions#new', as: :login
   get 'logout', to: 'sessions#destroy', as: :logout
+
+  #Users Controller Routes
+  resources :users, except: [:destroy, :show]
+
+  #Customers Controller Routes
+  resources :customers, except: [:destroy]
 
   # API routing
   scope module: 'api', defaults: {format: 'json'} do
