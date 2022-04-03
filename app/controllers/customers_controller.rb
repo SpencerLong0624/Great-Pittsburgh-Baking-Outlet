@@ -1,7 +1,8 @@
 class CustomersController < ApplicationController
   #Callbacks
-  before_action :check_login, only: [:index, :show]
-  before_action :set_customer, only: [:show]
+  before_action :check_login, only: [:index, :show, :update, :edit]
+  before_action :set_customer, only: [:show, :update, :edit]
+  authorize_resource
 
   def new
     @customer = Customer.new
@@ -11,22 +12,22 @@ class CustomersController < ApplicationController
   end
 
   def show
-    @previous_orders = @customer.orders #maybe not return only previous orders
+    @previous_orders = @customer.orders.paid
     @addresses = @customer.addresses
   end
 
   def create
     @customer = Customer.new(customer_params)
     @user = User.new(user_params)
-    @user.role = "owner"
+    @user.role = "customer"
     if !@user.save
-      @owner.valid?
+      @customer.valid?
       render action: 'new'
     else
-      @owner.user_id = @user.id
-      if @owner.save
-        flash[:notice] = "Successfully created #{@owner.proper_name}."
-        redirect_to owner_path(@owner) 
+      @customer.user_id = @user.id
+      if @customer.save
+        flash[:notice] = "#{@customer.proper_name} was added to the system."
+        redirect_to customer_path(@customer) 
       else
         render action: 'new'
       end      
@@ -39,6 +40,15 @@ class CustomersController < ApplicationController
   end
 
   def update
+    respond_to do |format|
+      if @customer.update_attributes(customer_params)
+        format.html { redirect_to(@customer, :notice => "Successfully updated #{@customer.proper_name}.") }
+        format.json { respond_with_bip(@customer) }
+      else
+        format.html { render :action => "edit" }
+        format.json { respond_with_bip(@customer) }
+      end
+    end
   end
 
   private
