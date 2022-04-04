@@ -24,6 +24,11 @@ Rails.application.routes.draw do
   #Categories Controller Routes
   resources :categories, except: [:show, :destroy]
 
+  #Items Controller Routes
+  resources :items
+  patch 'items/:id/toggle_active', to: 'items#toggle_active', as: :toggle_active
+  patch 'items/:id/toggle_feature', to: 'items#toggle_feature', as: :toggle_feature
+
   # API routing
   scope module: 'api', defaults: {format: 'json'} do
     namespace :v1 do
