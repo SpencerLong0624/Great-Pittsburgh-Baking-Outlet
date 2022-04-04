@@ -11,6 +11,13 @@ class AddressesController < ApplicationController
   end
 
   def create
+    @address = Address.new(address_params)
+    if @address.save
+      flash[:notice] = "The address was added to #{@address.customer.proper_name}."
+      redirect_to customer_path(@address.customer)
+    else
+      render action: 'new'
+    end
   end
 
   def show
