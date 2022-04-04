@@ -21,6 +21,9 @@ Rails.application.routes.draw do
   #Addresses Controller Routes
   resources :addresses, except: [:destroy]
 
+  #Categories Controller Routes
+  resources :categories, except: [:show, :destroy]
+
   # API routing
   scope module: 'api', defaults: {format: 'json'} do
     namespace :v1 do
