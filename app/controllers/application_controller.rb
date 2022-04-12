@@ -1,13 +1,13 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  # just show a flash message instead of full CanCan exception
+  # just show a flash message instead of full CanCan exception from PATS
   rescue_from CanCan::AccessDenied do |exception|
-    flash[:error] = "You are not authorized to take this action.  Go away or I shall taunt you a second time."
+    flash[:error] = "You are not authorized to perform this action."
     redirect_to home_path
   end
 
-  # handle 404 errors with an exception as well
+  # handle 404 errors with an exception as well from PATS
   rescue_from ActiveRecord::RecordNotFound do |exception|
     flash[:error] = "We apologize, but this information could not be found."
     redirect_to home_path
