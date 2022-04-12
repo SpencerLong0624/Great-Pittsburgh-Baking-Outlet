@@ -28,7 +28,9 @@ class OrdersControllerTest < ActionDispatch::IntegrationTest
 
   test "should show order" do
     login_customer
-    get order_path(@order)
+    @address_jb = FactoryBot.create(:address, customer: @jblake, is_billing: true)
+    @order_jb = FactoryBot.create(:order, customer: @jblake, address: @address_jb)
+    get order_path(@order_jb)
     assert_response :success
     assert_not_nil assigns(:previous_orders)
     assert_not_nil assigns(:order_items)

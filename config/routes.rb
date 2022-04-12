@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'item_prices/new'
+  get 'item_prices/create'
   #Home Controller Routes
   get 'home', to: 'home#index', as: :home
   get 'home/privacy', to: 'home#privacy', as: :privacy
@@ -28,6 +30,9 @@ Rails.application.routes.draw do
   resources :items
   patch 'items/:id/toggle_active', to: 'items#toggle_active', as: :toggle_active
   patch 'items/:id/toggle_feature', to: 'items#toggle_feature', as: :toggle_feature
+
+  #Item_prices Controller Routes
+  resources :item_prices, only: [:new, :create]
 
   # API routing
   scope module: 'api', defaults: {format: 'json'} do
