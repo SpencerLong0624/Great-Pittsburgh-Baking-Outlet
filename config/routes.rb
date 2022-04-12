@@ -35,12 +35,15 @@ Rails.application.routes.draw do
   #Search Controller Routes
   get 'search/search', to: 'search#search', as: :search
 
-  #Cart Controller Routes
+  #Carts Controller Routes
   get 'carts', to: 'cart#show', as: :view_cart
   get 'carts/:id/add_item', to: 'cart#add_item', as: :add_item
   get 'carts/:id/remove_item', to: 'cart#remove_item', as: :remove_item
   get 'carts/empty_cart', to: 'cart#empty_cart', as: :empty_cart
   get 'checkout', to: 'cart#checkout', as: :checkout
+
+  #Orders Controller Routes
+  resources :orders, only: [:index, :show, :create]
 
   # API routing
   scope module: 'api', defaults: {format: 'json'} do
@@ -50,7 +53,4 @@ Rails.application.routes.draw do
       get 'customers/:id', to: 'customers#show'
     end
   end
-
-  
-
 end
