@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'item_prices/new'
-  get 'item_prices/create'
   #Home Controller Routes
   get 'home', to: 'home#index', as: :home
   get 'home/privacy', to: 'home#privacy', as: :privacy
@@ -33,6 +31,9 @@ Rails.application.routes.draw do
 
   #Item_prices Controller Routes
   resources :item_prices, only: [:new, :create]
+
+  #Search Controller Routes
+  get 'search/search', to: 'search#search', as: :search
 
   # API routing
   scope module: 'api', defaults: {format: 'json'} do
