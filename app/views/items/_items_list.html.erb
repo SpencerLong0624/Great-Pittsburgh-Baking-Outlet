@@ -1,0 +1,66 @@
+<h4>Featured Items at GPBO</h4>
+
+<% if @featured_items.empty?%>
+    <h5>There are no featured items in that category at this time.</h5>
+<% else%>
+
+  <table class="striped highlight">
+    <thead>
+      <th>Name</th>
+      <th class="align_center">Price</th>
+    </thead>
+    <% for item in @featured_items %>
+      <tr class="<%= cycle('dg_list_line_odd', 'dg_list_line_even') %>">
+        <td><%= link_to "#{item.name}", item_path(item) %></td>
+        <td><%= ActionController::Base.helpers.number_to_currency(item.current_retail_price) %></td>
+
+      <td class="align_center">
+        <% if can? :edit, item %>
+          <%= link_to edit_item_path(item) do %>
+                <i class="material-icons">edit</i>
+            <% end %>
+          <% end %>
+      </td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<br><br>
+<h4>Other Items at GPBO</h4>
+
+ <table class="striped highlight">
+    <thead>
+      <th>Name</th>
+      <th class="align_center">Price</th>
+    </thead>
+    <% for item in @other_items %>
+      <tr class="<%= cycle('dg_list_line_odd', 'dg_list_line_even') %>">
+        <td><%= link_to "#{item.name}", item_path(item) %></td>
+        <td class="align_center"><%= ActionController::Base.helpers.number_to_currency(item.current_retail_price) %></td>
+
+      <td class="align_center">
+        <% if can? :edit, item %>
+          <%= link_to edit_item_path(item) do %>
+                <i class="material-icons">edit</i>
+            <% end %>
+          <% end %>
+      </td>
+      </tr>
+    <% end %>
+  </table>
+
+<br><br>
+<h4>Find by Category</h4>
+
+ <table class="striped highlight">
+    <thead>
+      <th>Name</th>
+    </thead>
+    <% for category in @categories %>
+      <tr class="<%= cycle('dg_list_line_odd', 'dg_list_line_even') %>">
+        <td><%= link_to "#{category.name}", items_path(category: category) %></td>
+      </tr>
+    <% end %>  
+      <td><%= link_to "All", items_path %></td>
+  </table>

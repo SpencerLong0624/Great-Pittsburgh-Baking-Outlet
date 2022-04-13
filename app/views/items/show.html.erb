@@ -1,2 +1,10 @@
-<h1>Items#show</h1>
-<p>Find me in app/views/items/show.html.erb</p>
+<%= @item.description %> <br>
+<%= "Color: #{@item.color}" %><br>
+<%= "Weight: #{@item.weight} lbs" %><br>
+<%= "Current Price: #{ActionController::Base.helpers.number_to_currency(@item.current_retail_price)}" %><br>
+<h4>Similar Items</h4>
+<% for item in @similar_items %>
+    <%= link_to "#{item.name}", item_path(item) %><br>
+<% end %>
+
+<%= link_to "Display All", items_path %>

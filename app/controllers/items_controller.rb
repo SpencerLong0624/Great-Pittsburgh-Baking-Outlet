@@ -3,9 +3,15 @@ class ItemsController < ApplicationController
   authorize_resource
 
   def index
-    @categories = Item.alphabetical.paginate(page: params[:page]).per_page(15)
-    @featured_items = Item.featured.paginate(page: params[:page]).per_page(15)
-    @other_items = Item.where(is_featured: false).paginate(page: params[:page]).per_page(15)
+    @categories = Category.active.alphabetical
+    if params.has_key?(:category)
+      @category = Category.find(params[:category])
+      @featured_items = Item.featured.active.for_category(@category).alphabetical.paginate(page: params[:page]).per_page(15)
+      @other_items = Item.active.where(is_featured: false).for_category(@category).alphabetical.paginate(page: params[:page]).per_page(15)
+    else
+      @featured_items = Item.featured.active.alphabetical.paginate(page: params[:page]).per_page(15)
+      @other_items = Item.active.where(is_featured: false).alphabetical.paginate(page: params[:page]).per_page(15)
+    end
   end
 
   def show

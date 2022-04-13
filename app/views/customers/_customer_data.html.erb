@@ -1,0 +1,25 @@
+<div class="card">
+  <div class="card-content">
+    <h4>A GPBO customer since 2020</h4>
+    <h5><%= best_in_place @customer, :first_name, as: :input %> 
+        <%= best_in_place @customer, :last_name, as: :input %></h5><br />
+
+    <b>Addresses on file:&nbsp;&nbsp;</b><br>
+        <% for address in @customer.addresses%>
+            <%="#{address.recipient}: #{address.street_1 + " " + address.city + ", " + address.state + " " + address.zip}" %><br>
+        <%end%>
+    <br><br>
+
+    <b>Phone:&nbsp;&nbsp;</b><br>
+      <%= best_in_place @customer, :phone, as: :input, display_with: :number_to_phone %><br /><br />
+
+    <b>Email:&nbsp;&nbsp;</b><br>
+      <%= best_in_place @customer, :email, as: :input %><br /><br />
+
+    <b>Order History:&nbsp;&nbsp;</b><br>
+        <% for order in @customer.orders%>
+            <%= link_to "Date: #{order.date.strftime('%m/%d/%y')}", order_path(order) %><br>
+            <%="Amount: #{ActionController::Base.helpers.number_to_currency(order.grand_total)}" %><br><br>
+        <%end%>
+  </div>
+</div>

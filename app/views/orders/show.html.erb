@@ -1,2 +1,4 @@
-<h1>Orders#show</h1>
-<p>Find me in app/views/orders/show.html.erb</p>
+<%= "Date: #{@order.date.strftime('%B %d, %Y')}" %><br>
+<%= "Customer: #{@order.customer.proper_name}" %><br>
+<%= "Recipient: #{@order.address.recipient}" %><br>
+<%= "Grand Total: #{ActionController::Base.helpers.number_to_currency(@order.grand_total)}" %><br>
