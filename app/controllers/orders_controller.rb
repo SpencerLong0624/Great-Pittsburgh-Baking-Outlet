@@ -24,6 +24,9 @@ class OrdersController < ApplicationController
     @order.date = Date.current
     @order.shipping = calculate_cart_shipping
     if @order.save
+      @order.pay
+      save_each_item_in_cart(@order)
+      clear_cart
       flash[:notice] = "Thank you for ordering from GPBO."
       redirect_to order_path(Order.last)
     else

@@ -12,13 +12,13 @@ class CartController < ApplicationController
   end
 
   def add_item
-    add_item_to_cart(@item.id)
+    add_item_to_cart(params[:id])
     flash[:notice] = "#{@item.name} was added to cart."
     redirect_to view_cart_path
   end
 
   def remove_item
-    remove_item_from_cart(@item.id)
+    remove_item_from_cart(params[:id])
     flash[:notice] = "#{@item.name} was removed from cart."
     redirect_to view_cart_path
   end
