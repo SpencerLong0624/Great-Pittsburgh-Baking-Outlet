@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-content">
-    <h4>A GPBO customer since 2020</h4>
+    <h4><%= "A GPBO customer since #{@customer.created_at.year}" %></h4>
     <h5><%= best_in_place @customer, :first_name, as: :input %> 
         <%= best_in_place @customer, :last_name, as: :input %></h5><br />
 
@@ -21,5 +21,11 @@
             <%= link_to "Date: #{order.date.strftime('%m/%d/%y')}", order_path(order) %><br>
             <%="Amount: #{ActionController::Base.helpers.number_to_currency(order.grand_total)}" %><br><br>
         <%end%>
+        
+    <% if @customer.active %>
+      <br><b>Active: </b>Yes<br>
+    <% else %>
+      <br><b>Active: </b>No<br>
+    <% end %>
   </div>
 </div>

@@ -1,10 +1,25 @@
-<h1>Home</h1>
-<div class="row">  
-  <h4>Welcome to The Great Pittsburgh Baking Outlet</h4>  
+<nav id="nav">
+  <div class="container">
+    <ul class="left">
+      <li><%= link_to "Home", home_path %></li>
+      <li><%= link_to "About", about_path %></li>
+      <li><%= link_to "Contact", contact_path %></li>
+      <li><%= link_to "Privacy", privacy_path %></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="row">    
   <div class="col s9">
-        <p>The Great Pittsburgh Baking Outlet is an online
-           store featuring items presented in the show "The Great
-           Pittsburgh Bake Off".
-        </p>
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title"><em>Welcome to The Great Pittsburgh Baking Outlet</em></span>
+        <div id="main_content">
+            <p>
+                We are happy to have you here! 
+            </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

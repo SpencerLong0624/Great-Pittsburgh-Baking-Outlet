@@ -1,3 +1,12 @@
+<% if can? :new, Item %>  
+  <div class="card grey lighten-3">
+    <div class="card-action">
+      <%= link_to "Add a New Item", new_item_path %>
+    </div>
+  </div>
+<% end %>
+
+
 <h4>Featured Items at GPBO</h4>
 
 <% if @featured_items.empty?%>
@@ -8,12 +17,17 @@
     <thead>
       <th>Name</th>
       <th class="align_center">Price</th>
+      <% if logged_in? && current_user.role?(:admin) %>
+        <th class="align_center">Inventory</th>
+      <% end %>
     </thead>
     <% for item in @featured_items %>
       <tr class="<%= cycle('dg_list_line_odd', 'dg_list_line_even') %>">
         <td><%= link_to "#{item.name}", item_path(item) %></td>
         <td><%= ActionController::Base.helpers.number_to_currency(item.current_retail_price) %></td>
-
+        <% if logged_in? && current_user.role?(:admin) %>
+          <td><%= item.inventory_level %></td>
+        <% end %>
       <td class="align_center">
         <% if can? :edit, item %>
           <%= link_to edit_item_path(item) do %>
@@ -33,11 +47,17 @@
     <thead>
       <th>Name</th>
       <th class="align_center">Price</th>
+      <% if logged_in? && current_user.role?(:admin) %>
+        <th class="align_center">Inventory</th>
+      <% end %>
     </thead>
     <% for item in @other_items %>
       <tr class="<%= cycle('dg_list_line_odd', 'dg_list_line_even') %>">
         <td><%= link_to "#{item.name}", item_path(item) %></td>
         <td class="align_center"><%= ActionController::Base.helpers.number_to_currency(item.current_retail_price) %></td>
+        <% if logged_in? && current_user.role?(:admin) %>
+          <td><%= item.inventory_level %></td>
+        <% end %>
 
       <td class="align_center">
         <% if can? :edit, item %>

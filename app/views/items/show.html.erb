@@ -1,7 +1,48 @@
+<h3> <%= "#{@item.name}" %> </h3><br>
+
+<% if can? :edit, @item %>
+    <h5><%= link_to "Edit #{@item.name}",edit_item_path(@item.id) %> </h5>
+<% end %>
+
 <%= @item.description %> <br>
 <%= "Color: #{@item.color}" %><br>
 <%= "Weight: #{@item.weight} lbs" %><br>
 <%= "Current Price: #{ActionController::Base.helpers.number_to_currency(@item.current_retail_price)}" %><br>
+
+<% if can? :new, ItemPrice %>
+    <h5><%= link_to "Add a New Price", new_item_price_path(item_id: @item.id) %> </h5>
+<% end %>
+
+<% if logged_in? && current_user.role?(:admin) %>
+    <p>Price History</p>
+  <table class="striped highlight">
+    <thead>
+      <th>Name</th>
+      <th class="align_center">Price</th>
+    </thead>
+    <% for price in @prices %>
+      <tr class="<%= cycle('dg_list_line_odd', 'dg_list_line_even') %>">
+        <td><%= "Date: #{price.start_date} - #{price.end_date}" %></td>
+        <td><%= ActionController::Base.helpers.number_to_currency(price.price) %></td>
+      </tr>
+    <% end %>
+    </table><br>
+    <%= "Inventory Level: #{@item.inventory_level}" %><br>
+    <%= "Reorder Level: #{@item.reorder_level}" %><br>
+    <% if @item.active %>
+        <%= link_to "Make Inactive", toggle_active_path, method: :patch %>
+    <% else %>
+        <%= link_to "Make Active", toggle_active_path, method: :patch %>
+    <% end %>
+    <br>
+    <% if @item.is_featured %>
+        <%= link_to "Stop Featured", toggle_feature_path, method: :patch %>
+    <% else %>
+        <%= link_to "Make Featured", toggle_feature_path, method: :patch %>
+    <% end %>
+<% end %>
+
+
 <h4>Similar Items</h4>
 <% for item in @similar_items %>
     <%= link_to "#{item.name}", item_path(item) %><br>

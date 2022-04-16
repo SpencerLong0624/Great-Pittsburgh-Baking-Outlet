@@ -15,7 +15,7 @@ class ItemsController < ApplicationController
   end
 
   def show
-    @prices = @item.item_prices.paginate(page: params[:page]).per_page(15)
+    @prices = @item.item_prices.chronological.paginate(page: params[:page]).per_page(15)
     @similar_items = @item.category.items.paginate(page: params[:page]).per_page(15)
   end
 
