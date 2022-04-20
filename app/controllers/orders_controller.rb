@@ -20,6 +20,7 @@ class OrdersController < ApplicationController
 
   def create
     @order = Order.new(order_params)
+    @order.customer_id = current_user.customer.id
     @order.products_total = calculate_cart_items_cost
     @order.date = Date.current
     @order.shipping = calculate_cart_shipping
