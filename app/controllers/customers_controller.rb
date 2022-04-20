@@ -1,4 +1,5 @@
 class CustomersController < ApplicationController
+  include AppHelpers::Cart
   #Callbacks
   before_action :check_login, only: [:index, :show, :update, :edit]
   before_action :set_customer, only: [:show, :update, :edit]
@@ -28,6 +29,7 @@ class CustomersController < ApplicationController
       if @customer.save
         flash[:notice] = "#{@customer.proper_name} was added to the system."
         session[:user_id] = @customer.user.id
+        create_cart
         redirect_to customer_path(@customer) 
       else
         render action: 'new'
