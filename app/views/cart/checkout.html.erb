@@ -1,1 +1,19 @@
-<h5><%= link_to "Add a new address", new_address_path %></h4>
+<h4>Checkout</h4>
+<div class="row">
+  <div class="col s8">
+    <%= simple_form_for(@order) do |f| %>
+      <%= f.error_notification %>
+      <div class="row">
+        <div class="form-inputs">
+            <h5><%= link_to "Add a new address", new_address_path %></h5>
+            <%= f.input :address_id, collection: @addresses.map{|a| "#{a.customer.proper_name} - #{a.street_1} #{a.city}, #{a.state} #{a.zip}"}, include_blank: true %>
+            <%= f.input :credit_card_number, label_html: { class: 'active' } %>
+            <%= f.input :expiration_month, collection: [1,2,3,4,5,6,7,8,9,10,11,12], include_blank: true %>
+            <%= f.input :expiration_year, collection: (Date.today.year..15.year.from_now.year).to_a, include_blank: true %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= "Place Order" %>

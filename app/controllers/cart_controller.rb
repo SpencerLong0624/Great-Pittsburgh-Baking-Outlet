@@ -14,7 +14,7 @@ class CartController < ApplicationController
   def add_item
     add_item_to_cart(params[:id])
     flash[:notice] = "#{@item.name} was added to cart."
-    redirect_to view_cart_path
+    redirect_to item_path(@item)
   end
 
   def remove_item

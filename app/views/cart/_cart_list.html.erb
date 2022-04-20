@@ -1,0 +1,31 @@
+<h3>Your Cart</h3>
+
+<% if @items_in_cart.size == 0 %>
+    <p>
+        <strong>Your cart is currently empty.</strong>
+    </p>
+    <h5><%= link_to "Start shopping", items_path%><br><br>
+
+<% else %>
+
+    <% for order_item in @items_in_cart %>
+        <h5><%= order_item.item.name %></h5>
+        <%= "Unit Price: #{ActionController::Base.helpers.number_to_currency(order_item.item.current_retail_price)}" %><br>
+        <%= "Quantity: #{order_item.quantity}" %><br>
+        <%= "Subtotal: #{ActionController::Base.helpers.number_to_currency(order_item.quantity * order_item.item.current_retail_price) }" %><br>
+        <%= link_to "Remove", remove_item_path(order_item.item.id) %>
+    <% end %>
+
+    <br>
+    <h5><b><%= "Subtotal: #{ActionController::Base.helpers.number_to_currency(@subtotal) }" %></b></h5>
+    <h5><b><%= "Shipping: #{ActionController::Base.helpers.number_to_currency(@shipping_cost) }" %></b></h5>
+    <h5><b><%= "Grand Total: #{ActionController::Base.helpers.number_to_currency(@total) }" %></b></h5>
+
+    <h5><%= link_to "Continue shopping", items_path%>
+    <h5><%= link_to "Empty cart", empty_cart_path%><br>
+
+
+    <br><br>
+    <h5><%= link_to "Checkout", checkout_path %></h4>
+
+<% end %>

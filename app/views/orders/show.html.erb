@@ -1,4 +1,50 @@
+<h4>Order Details</h4>
 <%= "Date: #{@order.date.strftime('%B %d, %Y')}" %><br>
 <%= "Customer: #{@order.customer.proper_name}" %><br>
 <%= "Recipient: #{@order.address.recipient}" %><br>
-<%= "Grand Total: #{ActionController::Base.helpers.number_to_currency(@order.grand_total)}" %><br>
+<%= "Order Cost Breakdown" %>
+
+     <table class="striped highlight">
+    <thead>
+      <th>Item</th>
+      <th class="align_center">Quantity</th>
+    </thead>
+    <% for order_item in @order.order_items %>
+      <tr class="<%= cycle('dg_list_line_odd', 'dg_list_line_even') %>">
+        <td><%= link_to "#{order_item.item.name}", item_path(order_item.item) %></td>
+        <td><%= "#{order_item.quantity}" %></td><br>
+      </tr>
+    <% end %>
+  </table><br>
+
+<% if @order.order_items.size > 1 %>
+    <%= "Item Count #{@order.order_items.size} Items" %><br>
+<% else %>
+    <%= "Item Count #{@order.order_items.size} Item" %><br>
+<% end %>
+<%= "Product Subtotal: #{@order.products_total}" %><br>
+<%= "Shipping: #{@order.shipping}" %><br>
+<%= "Grand Total: #{ActionController::Base.helpers.number_to_currency(@order.grand_total)}" %><br><br><br>
+
+<h5>Previous Orders</h5>
+
+     <table class="striped highlight">
+    <thead>
+      <th>Date</th>
+      <th class="align_center">Recipient</th>
+      <th class="align_center">Item Count</th>
+      <th class="align_center">Cost</th>
+    </thead>
+    <% for order in @previous_orders %>
+      <tr class="<%= cycle('dg_list_line_odd', 'dg_list_line_even') %>">
+        <td><%= link_to "#{order.date.strftime('%m/%d/%y')}", order_path(order) %></td>
+        <td><%= "#{order.address.recipient}" %></td>
+        <% if order.order_items.size > 1 %>
+            <td><%= "#{order.order_items.size} Items" %></td>
+        <% else %>
+            <td><%= "#{order.order_items.size} Item" %></td>
+        <% end %>
+        <td><%= ActionController::Base.helpers.number_to_currency(order.grand_total) %></td>
+      </tr>
+    <% end %>
+  </table>

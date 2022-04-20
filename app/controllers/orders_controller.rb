@@ -6,15 +6,15 @@ class OrdersController < ApplicationController
 
   def index
     if current_user.role?(:admin)
-      @pending_orders = Order.paid.paginate(page: params[:page]).per_page(15)
-      @past_orders = Order.all - Order.paid
-    else
-      @all_orders = Order.paginate(page: params[:page]).per_page(15)
+      @pending_orders = Order.not_shipped.paginate(page: params[:page]).per_page(15)
+      @past_orders = Order.all - @pending_orders
+    elsif current_user.role?(:customer)
+      @all_orders = Order.for_customer(current_user.customer.id).paginate(page: params[:page]).per_page(15)
     end
   end
 
   def show
-    @previous_orders = @order.customer.orders.paid.paginate(page: params[:page]).per_page(15)
+    @previous_orders = Order.for_customer(@order.customer_id).where("id != ?", @order.id).paginate(page: params[:page]).per_page(15)
     @order_items = @order.order_items.paginate(page: params[:page]).per_page(15)
   end
 

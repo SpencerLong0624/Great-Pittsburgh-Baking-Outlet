@@ -1,0 +1,74 @@
+<% if logged_in? && current_user.role?(:customer) %>
+    <h3>All Orders</h3>
+
+     <table class="striped highlight">
+    <thead>
+      <th>Date</th>
+      <th class="align_center">Recipient</th>
+      <th class="align_center">Item Count</th>
+      <th class="align_center">Cost</th>
+    </thead>
+    <% for order in @all_orders %>
+      <tr class="<%= cycle('dg_list_line_odd', 'dg_list_line_even') %>">
+        <td><%= link_to "#{order.date.strftime('%m/%d/%y')}", order_path(order) %></td>
+        <td><%= "#{order.address.recipient}" %></td>
+        <% if order.order_items.size > 1 %>
+            <td><%= "#{order.order_items.size} Items" %></td>
+        <% else %>
+            <td><%= "#{order.order_items.size} Item" %></td>
+        <% end %>
+        <td><%= ActionController::Base.helpers.number_to_currency(order.grand_total) %></td>
+      </tr>
+    <% end %>
+  </table>
+
+<% elsif logged_in? && current_user.role?(:admin)%>
+    <h3>Pending Orders</h3>
+
+    <table class="striped highlight">
+    <thead>
+      <th>Date</th>
+      <th class="align_center">Customer</th>
+      <th class="align_center">Recipient</th>
+      <th class="align_center">Item Count</th>
+      <th class="align_center">Cost</th>
+    </thead>
+    <% for order in @pending_orders %>
+      <tr class="<%= cycle('dg_list_line_odd', 'dg_list_line_even') %>">
+        <td><%= link_to "#{order.date.strftime('%m/%d/%y')}", order_path(order) %></td>
+        <td><%= link_to "#{order.customer.name}", customer_path(order.customer) %></td>
+        <td><%= link_to "#{order.address.recipient}", address_path(order.address) %></td>
+        <% if order.order_items.size > 1 %>
+            <td><%= "#{order.order_items.size} Items" %></td>
+        <% else %>
+            <td><%= "#{order.order_items.size} Item" %></td>
+        <% end %>
+        <td><%= ActionController::Base.helpers.number_to_currency(order.grand_total) %></td>
+      </tr>
+    <% end %>
+  </table>
+  
+    <h3>Past Orders</h3>
+         <table class="striped highlight">
+    <thead>
+      <th>Date</th>
+      <th class="align_center">Customer</th>
+      <th class="align_center">Recipient</th>
+      <th class="align_center">Item Count</th>
+      <th class="align_center">Cost</th>
+    </thead>
+    <% for order in @past_orders %>
+      <tr class="<%= cycle('dg_list_line_odd', 'dg_list_line_even') %>">
+        <td><%= link_to "#{order.date.strftime('%m/%d/%y')}", order_path(order) %></td>
+        <td><%= link_to "#{order.customer.name}", customer_path(order.customer) %></td>
+        <td><%= link_to "#{order.address.recipient}", address_path(order.address) %></td>
+        <% if order.order_items.size > 1 %>
+            <td><%= "#{order.order_items.size} Items" %></td>
+        <% else %>
+            <td><%= "#{order.order_items.size} Item" %></td>
+        <% end %>
+        <td><%= ActionController::Base.helpers.number_to_currency(order.grand_total) %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

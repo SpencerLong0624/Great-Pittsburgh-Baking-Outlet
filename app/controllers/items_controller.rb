@@ -1,5 +1,5 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :update, :destroy, :toggle_active, :toggle_feature]
+  before_action :set_item, only: [:show, :update, :destroy, :toggle_active, :toggle_feature, :edit]
   authorize_resource
 
   def index
@@ -44,6 +44,7 @@ class ItemsController < ApplicationController
   end
 
   def new
+    @item = Item.new
   end
 
   def create

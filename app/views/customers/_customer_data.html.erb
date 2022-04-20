@@ -6,7 +6,7 @@
 
     <b>Addresses on file:&nbsp;&nbsp;</b><br>
         <% for address in @customer.addresses%>
-            <%="#{address.recipient}: #{address.street_1 + " " + address.city + ", " + address.state + " " + address.zip}" %><br>
+            <%=link_to "#{address.recipient}: #{address.street_1 + " " + address.city + ", " + address.state + " " + address.zip}", address_path(address) %><br>
         <%end%>
     <br><br>
 

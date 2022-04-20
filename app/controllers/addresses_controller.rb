@@ -1,5 +1,5 @@
 class AddressesController < ApplicationController
-  before_action :set_address, only: [:update]
+  before_action :set_address, only: [:update, :show]
   authorize_resource
 
   def index

@@ -1,15 +1,18 @@
 class ItemPricesController < ApplicationController
   def new
-    @item = Item.all.paginate(page: params[:page]).per_page(15)
+    @item_price = ItemPrice.new
+    @item = Item.find(params[:item_id])
   end
 
   def create
     @item_price = ItemPrice.new(item_price_params)
+    @item_price.start_date = Date.current
     if @item_price.save
       flash[:notice] = "Successfully updated the price."
       redirect_to item_path(ItemPrice.last.item)
     else
-      render action: 'new'
+      @item = Item.find(params[:item_price][:item_id])
+      render action: 'new', locals: { item: @item }
     end
   end
 
